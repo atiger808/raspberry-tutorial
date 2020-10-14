@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+遥控树莓派
+{% endblock %}
+
+{% block content %}
+<style>
+
+    #container {
+        margin-left: 20px;
+        margin-top: 120px;
+    }
+
+    #front {
+        margin-left: 55px;
+        margin-bottom: 3px;
+    }
+
+    #rear {
+        margin-top: 3px;
+        margin-left: 55px;
+    }
+
+    .btn {
+        background-color: rgba(0, 0, 0, 0.5);
+        /**opacity: 0.5; **/
+    }
+
+    #auto {
+        margin-left: 0px;
+        margin-top: 3px;
+    }
+
+
+    #video {
+        padding-left: 10px;
+        padding-right: 10px;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        position: absolute;
+
+    }
+
+    .slide_container {
+        position: relative;
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+        top: 500px;
+
+    }
+
+    #shoot {
+        margin-left: 55px;
+        margin-bottom: 50px;
+        /*background: url("{% static 'images/camera2.jpg' %}") no-repeat;*/
+        /*height: 50px;*/
+        /*width: 50px;*/
+    }
+</style>
+<script>
+
+    function servo(obj) {
+        var status_value = $(obj).attr("id")
+        $.ajax({
+            url: "{% url 'webpage:servo' %}",
+            type: "post",
+            data: {
+                csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+                status: status_value,
+            },
+            success: function (data) {
+                var data = JSON.parse(data)
+                if (data.status) {
+                    $(".msg").html("  X轴: " + data.bottom_angle + " Y轴: " + data.top_angle)
+
+                }
+            }
+        })
+    };
+
+    function motor(obj) {
+        var status_value = $(obj).attr("id")
+        $.ajax({
+            url: "{% url 'webpage:motor' %}",
+            type: "post",
+            data: {
+                csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+                status: status_value,
+            },
+            success: function (data) {
+                var data = JSON.parse(data)
+                if (data.status) {
+                    $(".msg").html(data.status)
+                    console.log("ok")
+                }
+            }
+        })
+    }
+
+    $(document).ready(function () {
+        $("#slide").change(function () {
+                var slide_value = $("#slide").val()
+                $(".msg").html(slide_value + '°')
+                $.ajax({
+                    url: "{% url 'webpage:slide' %}",
+                    type: "post",
+                    data: {
+                        csrfmiddlewaretoken: $("[name=csrfmiddlewaretoken]").val(),
+                        slide: slide_value
+                    },
+                    success: function (data) {
+                        var data = JSON.parse(data)
+                        if (data.status) {
+                            console.log("ok")
+                        }
+                    }
+                })
+            }
+        )
+    })
+
+</script>
+
+<!--视频显示开始-->
+<div class="v_container" style="width: 100%; padding: 20px;">
+    <div id="video" style="width: auto">
+        <a href="{% url 'webpage:video' %}">
+            <img id="video" src="{% url 'webpage:video' %}?stamp=Math.random()">
+        </a>
+    </div>
+    <div class="slide_container">
+        <br>
+        <h4><b> 树莓派智能遥控车 </b></h4>
+        <br>
+        {% csrf_token %}
+        <input type="range" id="slide" min="-30" max="240" step="1" style="width: 100%;text-align:center;"/>
+
+        <br>
+        <p class="msg" style="width:auto; text-align: center; color:red;"></p>
+    </div>
+</div>
+<!--视频显示结束-->
+
+<div id="container" class="container">
+
+    <!--    小车方向控制开始-->
+    <div>
+        <div>
+            <button id="front"
+                    class="btn btn-lg btn-primary glyphicon glyphicon-circle-arrow-up" onclick="motor(this)"></button>
+        </div>
+        <div>
+            <button id='leftfront'
+                    class="btn btn-lg btn-primary glyphicon glyphicon-circle-arrow-left" onclick="motor(this)"></button>
+            <button id='stop'
+                    class="btn btn-lg btn-primary glyphicon glyphicon-stop" onclick="motor(this)"></button>
+            <button id='rightfront'
+                    class="btn btn-lg btn-primary glyphicon glyphicon-circle-arrow-right"
+                    onclick="motor(this)"></button>
+        </div>
+        <div>
+            <button id='rear'
+                    class="btn btn-lg btn-primary glyphicon glyphicon-circle-arrow-down" onclick="motor(this)"></button>
+        </div>
+    </div>
+    <!--    小车方向控制结束-->
+
+    <!--    舵机控制开始-->
+    <div>
+        <div id="auto">
+            <button id='shoot' class="btn btn-lg btn-primary glyphicon glyphicon-stop" onclick="motor(this)">
+            </button>
+            <button style="display: none" id='auto' class="btn btn-lg btn-primary glyphicon">自动模式</button>
+        </div>
+
+        <br>
+        <div style="display: none">
+            <button id='steer_bottom' class="btn btn-lg btn-primary glyphicon"
+                    onclick="motor(this)">左右旋转
+            </button>
+
+            <button id='steer_top' class="btn btn-lg btn-primary glyphicon"
+                    onclick="motor(this)">上下旋转
+            </button>
+        </div>
+        <br>
+    </div>
+    <!--    舵机控制结束-->
+</div>
+
+<img src="{% static 'image/qrcode.png' %}" style="position:absolute; top:700px;">
+
+{% endblock %}

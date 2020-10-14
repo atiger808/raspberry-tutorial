@@ -1,0 +1,270 @@
+@charset "utf-8";
+body {
+    font-family: 微软雅黑;
+    font-size: 14px;
+    background: #f6f6f6
+}
+
+a, body {
+    color: #3c3c3c
+}
+
+a, a:hover {
+    text-decoration: none
+}
+
+a:hover {
+    color: #0073df
+}
+
+.pad0 {
+    padding: 0
+}
+
+.fl {
+    float: left
+}
+
+.fr {
+    float: right
+}
+
+.fg {
+    width: 90%;
+    height: 10px
+}
+
+.clear, .fg {
+    clear: both
+}
+
+.hand {
+    cursor: pointer
+}
+
+button, input, optgroup, option, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    font-style: inherit;
+    font-weight: inherit;
+    outline: none
+}
+
+dd, dl, dt, li, ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 0
+}
+
+input::-ms-clear {
+    display: none
+}
+
+html button::-moz-focus-inner {
+    border-color: transparent !important
+}
+
+.bodyCss {
+    background-color: #fff;
+    min-height: 800px;
+    overflow-x: hidden
+}
+
+.head {
+    margin: 45px auto 0;
+    height: 50px
+}
+
+.head_line {
+    border-bottom: 1px solid #dcdcdc;
+    margin-right: 30px
+}
+
+.head_title {
+    text-align: center;
+    margin-top: -15px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f36d00;
+    padding: 0
+}
+
+.descript {
+    width: 90%;
+    min-width: 500px;
+    height: 150px;
+    margin: 20px 10%
+}
+
+.descript_block {
+    width: 200px;
+    height: 110px;
+    float: left;
+    margin: 0 15px
+}
+
+.descript_block_text01 {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    background: url(../images/N_bd01.png) no-repeat;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff
+}
+
+.descript_block_text02 {
+    width: 150px;
+    height: 35px;
+    line-height: 35px;
+    text-align: left;
+    padding-left: 10px;
+    background: url(../images/N_bd02.jpg) 0 100% no-repeat;
+    font-size: 16px;
+    color: #333
+}
+
+.descript_block_text03 {
+    width: 150px;
+    height: 70px;
+    line-height: 20px;
+    color: #999;
+    font-size: 12px;
+    margin: 20px 0 0 45px;
+    padding-left: 0
+}
+
+.form_box {
+    width: 50%;
+    margin: 30px auto;
+    height: 160px
+}
+
+.form_row {
+    margin: 15px 0
+}
+
+.form_row_label {
+    height: 32px;
+    line-height: 32px
+}
+
+.label_width {
+    width: 90px
+}
+
+.input_btnBox {
+    width: 200px;
+    height: 150px;
+    float: left;
+    padding-left: 10px
+}
+
+.input_inputBox {
+    width: 400px;
+    height: 140px;
+    float: left
+}
+
+.input_valueBox {
+    border: 0;
+    float: left;
+    margin-right: 20px
+}
+
+.input_value {
+    border: 1px solid #cbcbcb;
+    padding: 0 10px
+}
+
+.input_value, .input_value_hover:hover {
+    height: 32px;
+    line-height: 32px;
+    background: #f8f8f8
+}
+
+.input_value_hover:hover {
+    border: 1px solid #007adb
+}
+
+.input_verificationCode_value, .input_verificationCode_value:hover {
+    width: 180px
+}
+
+.input_verificationCode_img {
+    width: 100px;
+    height: 32px
+}
+
+.input_submit {
+    width: 160px;
+    height: 36px;
+    line-height: 36px;
+    background: #f60;
+    float: left;
+    margin: 55px 0 0 10px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px
+}
+
+.input_submit div {
+    width: 160px;
+    height: 36px;
+    text-align: center;
+    color: #fff;
+    display: block;
+    font-size: 16px;
+    font-weight: 700
+}
+
+.input_submit div:hover {
+    text-align: center;
+    color: #fff;
+    background: #ff7a21;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px
+}
+
+.footer_img1 {
+    display: block;
+    margin: 30px auto;
+    height: 300px;
+    width: 600px
+}
+
+.footer_img2 {
+    display: none
+}
+
+@media screen and (orientation: portrait) and (max-width: 720px) {
+    .descript {
+        display: none
+    }
+
+    .input_submit {
+        margin: 30px 0 0 calc(50% - 80px)
+    }
+
+    .descript_nbsp {
+        display: none
+    }
+
+    .head_title {
+        font-size: 18px
+    }
+
+    .bodyCss {
+        background-color: #fff;
+        min-height: 600px
+    }
+}
+
+@media screen and (max-width: 995px) {
+    .head_line {
+        display: none
+    }
+}

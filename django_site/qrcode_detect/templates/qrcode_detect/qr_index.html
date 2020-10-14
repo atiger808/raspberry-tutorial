@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+二维码扫描
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<h3>二维码生成器</h3>
+<form enctype="multipart/form-data" action="{% url 'qrcode_detect:upload_file' %}" method="post" id="formUpload">
+{% csrf_token %}
+<p>
+    <input type="file" id="Imgfile" name="imgfile" multiple="multiple">
+</p>
+<p>
+    <button type="submit" id="upload">上传</button>
+</p>
+</form>
+<p>
+    内容：
+    <input type="text" id="Content" name="content" style="height:30px; width:60%; padding:5px;">
+</p>
+<p>
+    <button id="btn">普通二维码</button>
+    <button id="btn_img">图像二维码</button>    
+</p>
+
+
+
+<a>
+    <img id="qrcode_img"/>
+</a>
+
+<script>
+    $(document).ready(function () {
+         $("#btn_img").click(function () {
+             
+             var text = $("[name=content]").val()
+             if(text==""){
+                 alert("请输入要生成二维码的内容")
+                 return
+             }
+             $.ajax({
+                 url: "{% url 'qrcode_detect:qr_with_icon' %}",
+                 type: "post",
+                 data: {
+                     csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+                     content: text
+                 },
+                 success: function (data) {
+                     var data = JSON.parse(data)
+                     if (data.status) {
+                         $("#qrcode_img").attr("src", "{% static 'image/icon_qrcode.png' %}" + "?code=" + Math.random())
+                         $("#Content").val("")
+                     }
+                 }
+             })
+         })
+         
+         
+         $("#btn").click(function () {
+             var text = $("[name=content]").val()
+             if(text==""){
+                 alert("请输入要生成二维码的内容")
+                 return
+                 }
+             $.ajax({
+                 url: "{% url 'qrcode_detect:qr_no_icon' %}",
+                 type: "post",
+                 data: {
+                     csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+                     content: $("[name='content']").val()
+                 },
+                 success: function (data) {
+                     var data = JSON.parse(data)
+                     if (data.status) {
+                         $("#qrcode_img").attr("src", "{% static 'image/qrcode.png' %}" + "?code=" + Math.random())
+                         $("#Content").val("")
+                     }
+                 }
+             })
+         })
+
+
+        $("#upload").click(function () {
+            event.preventDefault();
+            //alert($("#imgfile")[0].files);
+            var formdata = new FormData();
+            var files = $("#Imgfile").val()
+            if (files == ""){
+                alert("请选择要上传的文件！")
+                return
+            }
+            var csrf_data = $("[name=csrfmiddlewaretoken]").val()
+            
+            
+            var files_upload = $("#Imgfile")[0].files;
+             for(var i = 0; i < files_upload.length; i++){
+                formdata.append("files", files_upload[i]);
+                var fileReader = new FileReader(); fileReader.readAsDataURL(files_upload[i]); fileReader.onloadend = function (event) { var src = event.target.result; $('body').append('<img src=' + src + ' width=200px>'); }
+            };
+
+           
+           
+            formdata.append("csrfmiddlewaretoken", csrf_data)
+            $.ajax({
+                url: "{% url 'qrcode_detect:upload_file' %}",
+                type: 'POST',
+                processData: false,  //不处理数据，必须有
+                contentType: false, //不处理数据，必须有
+                async: false,
+                data:formdata,
+                cache: false,
+                success: function(data) {
+                    var data = JSON.parse(data)
+                    if (data.status) {
+                        alert("success")
+                        $("#Imgfile").val("")
+                    }
+
+                }
+            })
+        })
+
+    });
+
+
+</script>
+
+
+{% endblock %}

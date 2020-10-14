@@ -1,0 +1,28 @@
+
+#container {
+    margin-left: 20px;
+}
+
+#front {
+    margin-left: 55px;
+    margin-bottom: 3px;
+}
+
+#rear {
+    margin-top: 3px;
+    margin-left: 55px;
+}
+
+.btn {
+    background: #62559f;
+}
+
+#auto {
+    margin-left: 0px;
+    margin-top: 3px;
+}
+
+.video span {
+    background-color: "#3a3a3a";
+    color: "#fff";
+}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+二维码
+{% endblock %}
+
+
+{% block content %}
+<h3>二维码生成器</h3>
+    {% csrf_token %}
+    <p>
+     内容：
+     <input type="text" id="Content" name="content" style="height:30px; width:60%; padding:5px;">
+    </p>
+    <p>
+    <button id="qrcode">生成</button>
+    </p>
+
+<a>
+    <img id="qrcode_img" />
+</a>
+
+<script>
+$(document).ready(function(){
+    $("#qrcode").click(function(){
+        $.ajax({
+            url: "{% url 'webpage:create_qrcode' %}",
+            type: "post",
+            data: {
+                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+                content: $("[name='content']").val()
+            },
+            success:function(data){
+                var data = JSON.parse(data)
+                if(data.status){
+                    $("#qrcode_img").attr("src", "{% static 'image/qr.png' %}"+"?code="+ Math.random())
+                    $("#Content").val("")
+                }
+            }
+        })
+    
+    })
+
+})
+
+
+</script>
+
+
+{% endblock %}
